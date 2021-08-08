@@ -9,6 +9,11 @@ import UIKit
 
 class TodoListViewController: UIViewController {
     
+    let todo = Todo.shared
+    
+    override func viewDidLoad() {
+    }
+    
 }
 
 class MainTableViewCell: UITableViewCell {
