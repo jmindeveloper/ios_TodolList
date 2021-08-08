@@ -18,6 +18,7 @@ class AddTodoViewController: UIViewController {
     
     let datePicker = UIDatePicker()
     let todo = Todo()
+    let cellController = AddListTableViewCell()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,10 @@ class AddTodoViewController: UIViewController {
         datePicker.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 400)
         datePicker.locale = Locale(identifier: "Korean")
         createDatePicker()
+        
+        addTableView.dragInteractionEnabled = true
+        addTableView.dragDelegate = self
+        addTableView.dropDelegate = self
     }
     
     // CustomToolBar
@@ -74,9 +79,23 @@ class AddTodoViewController: UIViewController {
         
         todoTextField.text = ""
         
+        guard let firstIndex = todo.todoArray.firstIndex(of: str) else { return }
+        todo.currentDate = todo.todoArray[firstIndex]
+        todo.dictionaryIndex = todo.todoDictionary[todo.currentDate] ?? []
+        
         addTableView.reloadData()
     }
     
+    @objc func deleteBtnAction(_ sender: UIButton) {
+        let str = dateTextField.text!
+        let point = sender.convert(CGPoint.zero, to: addTableView)
+        guard let indexPath = addTableView.indexPathForRow(at: point) else { return }
+        todo.dictionaryIndex.remove(at: indexPath.row)
+        addTableView.deleteRows(at: [indexPath], with: .automatic)
+        todo.todoDictionary[str] = todo.dictionaryIndex
+    }
+    
+    // action
     @IBAction func addButton(_ sender: Any) {
         let str = dateTextField.text!
         let str2 = todoTextField.text!
@@ -105,28 +124,65 @@ class AddTodoViewController: UIViewController {
             if todo.todoArray.contains("") {
                 todo.todoArray.removeFirst()
             }
-            print(todo.todoArray)
-            print(todo.todoDictionary)
+//            print(todo.todoArray)
+//            print(todo.todoDictionary)
         }
+        
+        guard let firstIndex = todo.todoArray.firstIndex(of: str) else { return }
+        todo.currentDate = todo.todoArray[firstIndex]
+        todo.dictionaryIndex = todo.todoDictionary[todo.currentDate] ?? []
+        
+        addTableView.reloadData()
+        print(todo.dictionaryIndex)
     }
 }
 
 extension AddTodoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return todo.dictionaryIndex.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "addListCell", for: indexPath) as? AddListTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.addCellLabel.text = todo.dictionaryIndex[indexPath.row]
+        cell.deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let str = dateTextField.text!
+        
+        let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
+        todo.dictionaryIndex.remove(at: sourceIndexPath.row)
+        todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
+        todo.todoDictionary[str] = todo.dictionaryIndex
+    }
+}
+
+// drag and drop
+extension AddTodoViewController: UITableViewDragDelegate, UITableViewDropDelegate {
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        return
+    }
+    
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [UIDragItem(itemProvider: NSItemProvider())]
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        if session.localDragSession != nil {
+            return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+        }
+        return UITableViewDropProposal(operation: .cancel, intent: .unspecified)
     }
 }
 
 class AddListTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var addCellLabel: UILabel!
-    
-    @IBAction func deleteButton(_ sender: Any) {
-        
-    }
     
 }

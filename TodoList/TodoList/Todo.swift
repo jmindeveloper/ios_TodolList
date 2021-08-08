@@ -13,6 +13,7 @@ class Todo {
     var todoDictionary: [String: [String]] = [:]
     var currentIndex: String = ""
     var dictionaryIndex: [String] = []
+    var currentDate: String = ""
     
     func moveIndex() {
         
