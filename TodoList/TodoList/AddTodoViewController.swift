@@ -14,6 +14,8 @@ class AddTodoViewController: UIViewController {
     @IBOutlet weak var addTableView: UITableView!
     @IBOutlet weak var dateLabel: UILabel!
     
+    var lastStr = ""
+    
     let datePicker = UIDatePicker()
     let todo = Todo()
     
@@ -47,6 +49,31 @@ class AddTodoViewController: UIViewController {
         dateTextField.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
         self.dateLabel.text = formatter.string(from: datePicker.date)
+        // test
+        
+        let str = dateTextField.text!
+        
+        defer {
+            lastStr = str
+            print(todo.todoArray)
+            print(todo.todoDictionary)
+        }
+        
+        if todo.todoArray.contains(str) != true {
+            todo.todoArray.append(str)
+            todo.todoDictionary[str] = []
+        }
+        
+        if (todo.todoDictionary[lastStr]?.isEmpty) != nil {
+            if (todo.todoDictionary[lastStr]?.isEmpty)! {
+                guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
+                todo.todoArray.remove(at: firstIndex)
+                todo.todoDictionary[lastStr] = nil
+            }
+        }
+        
+        todoTextField.text = ""
+        
         addTableView.reloadData()
     }
     
@@ -74,19 +101,13 @@ class AddTodoViewController: UIViewController {
             }
         }
         if a == true , b == true {
-            if todo.todoArray.contains(str) {
-                todo.todoDictionary[str]?.append(str2)
-            } else {
-                todo.todoArray.append(str)
-                todo.todoDictionary[str] = [str2]
-            }
+            todo.todoDictionary[str]?.append(str2)
             if todo.todoArray.contains("") {
                 todo.todoArray.removeFirst()
             }
             print(todo.todoArray)
             print(todo.todoDictionary)
         }
-    
     }
 }
 
@@ -105,6 +126,7 @@ class AddListTableViewCell: UITableViewCell {
     @IBOutlet weak var addCellLabel: UILabel!
     
     @IBAction func deleteButton(_ sender: Any) {
+        
     }
     
 }
