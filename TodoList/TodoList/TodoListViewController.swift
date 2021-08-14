@@ -11,6 +11,7 @@ class TodoListViewController: UIViewController {
     
     let todo = Todo.shared
     var currentIndex: String = ""
+    var todoArraySorted: [String] = []
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateLabel: UILabel!
@@ -56,7 +57,9 @@ class TodoListViewController: UIViewController {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
         self.view.addGestureRecognizer(swipeRight)
         
-        self.dateLabel.text = todo.todoArray[pageControl.currentPage]
+        todoArraySorted = todo.todoArray.sorted(by: <)
+        
+        self.dateLabel.text = todoArraySorted[pageControl.currentPage]
     }
     
     @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) { // 스와이프했을때 실행할 함수
@@ -74,9 +77,9 @@ class TodoListViewController: UIViewController {
 
                 break
             }
-            currentIndex = todo.todoArray[pageControl.currentPage]
+            currentIndex = todoArraySorted[pageControl.currentPage]
             todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
-            self.dateLabel.text = todo.todoArray[pageControl.currentPage]
+            self.dateLabel.text = todoArraySorted[pageControl.currentPage]
             tableView.reloadData()
         }
     }
@@ -109,7 +112,7 @@ class TodoListViewController: UIViewController {
     
     @IBAction func pageChanged(_ sender: Any) {
         
-        currentIndex = todo.todoArray[pageControl.currentPage]
+        currentIndex = todoArraySorted[pageControl.currentPage]
         todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
         tableView.reloadData()
         
