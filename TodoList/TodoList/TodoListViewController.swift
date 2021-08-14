@@ -59,15 +59,12 @@ class TodoListViewController: UIViewController {
                 if (pageControl.currentPage < pageControl.numberOfPages - 1) {
                     pageControl.currentPage = pageControl.currentPage + 1
                 }
-                
-                print("leftSwipe")
             case UISwipeGestureRecognizer.Direction.right: // 오른쪽스와이프
                 if (pageControl.currentPage > 0) {
                     pageControl.currentPage = pageControl.currentPage - 1
                 }
-                print("rightSwipe")
             default:
-                print("default")
+
                 break
             }
             currentIndex = todo.todoArray[pageControl.currentPage]
