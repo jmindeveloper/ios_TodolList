@@ -138,6 +138,7 @@ class AddTodoViewController: UIViewController {
         todo.currentDate = todo.todoArray[firstIndex] // currentDate에 firstIndex값에 해당하는 값 저장
         todo.dictionaryIndex = todo.todoDictionary[todo.currentDate] ?? [] // dictionaryIndex에 todoDictionary의 currentDate값에 해당하는 key의 배열 저장
         
+        todoTextField.text = ""
         addTableView.reloadData()
         print(todo.dictionaryIndex)
     }

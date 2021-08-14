@@ -38,7 +38,7 @@
                                                     <rect key="frame" x="20" y="10" width="20" height="22.5"/>
                                                     <state key="normal" image="circle" catalog="system"/>
                                                     <connections>
-                                                        <action selector="stateButton:" destination="mxC-Qa-SNs" eventType="touchUpInside" id="ErG-bI-GSq"/>
+                                                        <action selector="stateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mSj-8K-cxc"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQD-bp-IBr">
@@ -59,10 +59,14 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="detailLabel" destination="AQD-bp-IBr" id="PPV-Kz-9aD"/>
-                                            <outlet property="stateButtonOulet" destination="UQe-Sy-rie" id="Qfe-zY-sMC"/>
+                                            <outlet property="stateButtonImage" destination="UQe-Sy-rie" id="3U0-yg-Nd3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="efA-ba-seM"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="9tj-SF-3Yf"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxe-Xr-NFY">
                                 <rect key="frame" x="186" y="179" width="42" height="21"/>
@@ -70,9 +74,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="359-9W-PzX">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="wzk-gh-xr7">
                                 <rect key="frame" x="146" y="834" width="122" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="pageChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="is4-p0-PPZ"/>
+                                </connections>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -83,7 +89,9 @@
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="BtQ-fN-J3k"/>
                             <constraint firstItem="kxe-Xr-NFY" firstAttribute="top" secondItem="1oB-W8-6kE" secondAttribute="bottom" constant="29" id="IKC-l0-FN3"/>
                             <constraint firstItem="kxe-Xr-NFY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XbB-IV-bPD"/>
+                            <constraint firstItem="wzk-gh-xr7" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aba-oq-rm2"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="afp-sB-Z7A"/>
+                            <constraint firstItem="wzk-gh-xr7" firstAttribute="bottom" secondItem="HOR-xi-IFl" secondAttribute="bottom" id="jaQ-W8-qw9"/>
                             <constraint firstItem="1oB-W8-6kE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="lKh-Ic-CBt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HOR-xi-IFl" secondAttribute="trailing" constant="30" id="qc6-VU-eDP"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="top" secondItem="kxe-Xr-NFY" secondAttribute="bottom" constant="16" id="uE9-EY-o2S"/>
@@ -97,6 +105,11 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="dateLabel" destination="kxe-Xr-NFY" id="FL3-1h-sSG"/>
+                        <outlet property="pageControl" destination="wzk-gh-xr7" id="XU6-Nn-Jef"/>
+                        <outlet property="tableView" destination="HOR-xi-IFl" id="dQg-8f-bRK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -128,7 +141,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할 일을 추가해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E7E-JT-oFf">
-                                <rect key="frame" x="75" y="278" width="239" height="34"/>
+                                <rect key="frame" x="75" y="278" width="220" height="34"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -184,9 +197,10 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mod-fa-qNs">
-                                <rect key="frame" x="322" y="282" width="22" height="22"/>
+                                <rect key="frame" x="295" y="273" width="44" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="22" id="FRc-7S-4dw"/>
+                                    <constraint firstAttribute="width" constant="44" id="FRc-7S-4dw"/>
+                                    <constraint firstAttribute="height" constant="44" id="ljH-F5-WmD"/>
                                 </constraints>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal">
@@ -209,11 +223,13 @@
                             <constraint firstItem="E7E-JT-oFf" firstAttribute="leading" secondItem="V4i-EB-GWU" secondAttribute="leading" constant="75" id="2nK-Pm-RsQ"/>
                             <constraint firstItem="tiU-5A-Gy9" firstAttribute="leading" secondItem="V4i-EB-GWU" secondAttribute="leading" constant="75" id="7Ak-Bs-Sr7"/>
                             <constraint firstItem="foF-xO-7Zo" firstAttribute="top" secondItem="E7E-JT-oFf" secondAttribute="bottom" constant="19" id="80L-8y-1oe"/>
-                            <constraint firstItem="mod-fa-qNs" firstAttribute="top" secondItem="LMT-ca-QII" secondAttribute="bottom" constant="66" id="Aam-8y-dsY"/>
+                            <constraint firstItem="V4i-EB-GWU" firstAttribute="trailing" secondItem="mod-fa-qNs" secondAttribute="trailing" constant="75" id="BJn-ac-YWn"/>
                             <constraint firstItem="FET-vH-n2H" firstAttribute="top" secondItem="V4i-EB-GWU" secondAttribute="top" constant="101" id="Bfu-Aa-aiw"/>
                             <constraint firstItem="tiU-5A-Gy9" firstAttribute="top" secondItem="FET-vH-n2H" secondAttribute="bottom" constant="39" id="HxN-3s-1To"/>
                             <constraint firstItem="V4i-EB-GWU" firstAttribute="bottom" secondItem="dui-Hx-QSK" secondAttribute="bottom" constant="64" id="K5N-CL-AYn"/>
+                            <constraint firstItem="mod-fa-qNs" firstAttribute="leading" secondItem="E7E-JT-oFf" secondAttribute="trailing" id="MlY-2S-VkP"/>
                             <constraint firstItem="dui-Hx-QSK" firstAttribute="leading" secondItem="V4i-EB-GWU" secondAttribute="leading" constant="75" id="ObN-IQ-TdS"/>
+                            <constraint firstItem="mod-fa-qNs" firstAttribute="top" secondItem="LMT-ca-QII" secondAttribute="bottom" constant="57" id="Q6V-1H-E9k"/>
                             <constraint firstItem="FET-vH-n2H" firstAttribute="leading" secondItem="V4i-EB-GWU" secondAttribute="leading" constant="75" id="QIM-aX-Mit"/>
                             <constraint firstItem="dui-Hx-QSK" firstAttribute="top" secondItem="foF-xO-7Zo" secondAttribute="bottom" constant="17" id="RGf-M4-wfW"/>
                             <constraint firstItem="V4i-EB-GWU" firstAttribute="trailing" secondItem="LMT-ca-QII" secondAttribute="trailing" constant="75" id="UUE-2G-ZDS"/>
@@ -221,8 +237,6 @@
                             <constraint firstItem="V4i-EB-GWU" firstAttribute="trailing" secondItem="dui-Hx-QSK" secondAttribute="trailing" constant="75" id="WDD-NM-d8C"/>
                             <constraint firstItem="E7E-JT-oFf" firstAttribute="top" secondItem="tiU-5A-Gy9" secondAttribute="bottom" constant="8" symbolic="YES" id="aMf-sa-RXW"/>
                             <constraint firstItem="foF-xO-7Zo" firstAttribute="centerX" secondItem="j6S-q5-uit" secondAttribute="centerX" id="dF4-Ee-Vbc"/>
-                            <constraint firstItem="mod-fa-qNs" firstAttribute="leading" secondItem="E7E-JT-oFf" secondAttribute="trailing" constant="8" symbolic="YES" id="gQS-nO-WdN"/>
-                            <constraint firstItem="V4i-EB-GWU" firstAttribute="trailing" secondItem="mod-fa-qNs" secondAttribute="trailing" constant="70" id="gUW-Md-70v"/>
                             <constraint firstItem="LMT-ca-QII" firstAttribute="leading" secondItem="FET-vH-n2H" secondAttribute="trailing" constant="8" symbolic="YES" id="itB-C2-u9d"/>
                         </constraints>
                     </view>
