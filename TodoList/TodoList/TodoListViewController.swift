@@ -26,6 +26,7 @@ class TodoListViewController: UIViewController {
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .black
+        print(pageControl.currentPage)
 
         // swipe
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
@@ -34,6 +35,12 @@ class TodoListViewController: UIViewController {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.view.addGestureRecognizer(swipeRight)
+        
+        // 불러오기
+        todo.todoArray = UserDefaults.standard.array(forKey: "todoArray") as? [String] ?? [""]
+        todo.todoDictionary = UserDefaults.standard.dictionary(forKey: "todoDictionary") as? [String: [String]] ?? [:]
+        print(todo.todoArray)
+        print(todo.todoDictionary)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -17,6 +17,11 @@ class Todo {
     var dictionaryIndex: [String] = []
     var currentDate: String = ""
     
-    private init() { }
+    func storage() {
+        UserDefaults.standard.set(todoArray, forKey: "todoArray")
+        UserDefaults.standard.set(todoDictionary, forKey: "todoDictionary")
+    }
     
+    private init() { }
+
 }

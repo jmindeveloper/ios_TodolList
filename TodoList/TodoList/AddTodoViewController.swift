@@ -41,6 +41,10 @@ class AddTodoViewController: UIViewController {
         todo.dictionaryIndex = []
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        todo.storage()
+    }
+    
     // CustomToolBar
     func creatToolBar() -> UIToolbar {
         let toolBar = UIToolbar()
@@ -92,7 +96,7 @@ class AddTodoViewController: UIViewController {
         addTableView.reloadData()
     }
     
-    @objc func deleteBtnAction(_ sender: UIButton) {
+    @objc func deleteBtnAction(_ sender: UIButton) { // 삭제
         let str = dateTextField.text!
         let point = sender.convert(CGPoint.zero, to: addTableView)
         guard let indexPath = addTableView.indexPathForRow(at: point) else { return }
@@ -102,7 +106,7 @@ class AddTodoViewController: UIViewController {
     }
     
     // action
-    @IBAction func addButton(_ sender: Any) {
+    @IBAction func addButton(_ sender: Any) { // 추가
         let str = dateTextField.text!
         let str2 = todoTextField.text!
         var a = false
@@ -130,8 +134,6 @@ class AddTodoViewController: UIViewController {
             if todo.todoArray.contains("") {
                 todo.todoArray.removeFirst()
             }
-//            print(todo.todoArray)
-//            print(todo.todoDictionary)
         }
         
         guard let firstIndex = todo.todoArray.firstIndex(of: str) else { return } // firstIndex값에 str값 index 저장
