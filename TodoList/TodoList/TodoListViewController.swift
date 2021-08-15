@@ -9,12 +9,13 @@ import UIKit
 
 class TodoListViewController: UIViewController {
     
-    let todo = Todo.shared
+    let todo = Todo.shared // 싱글톤
     var currentIndex: String = ""
     var todoArraySorted: [String] = []
+    var pickerView = UIPickerView()
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateLabel: UIButton!
     @IBOutlet weak var pageControl: UIPageControl!
     
     override func viewDidLoad() {
@@ -51,15 +52,9 @@ class TodoListViewController: UIViewController {
         tableView.reloadData()
         print(pageControl.numberOfPages)
         
-        // swipe
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        self.view.addGestureRecognizer(swipeLeft)
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        self.view.addGestureRecognizer(swipeRight)
-        
         todoArraySorted = todo.todoArray.sorted(by: <)
         
-        self.dateLabel.text = todoArraySorted[pageControl.currentPage]
+        self.dateLabel.setTitle(todoArraySorted[pageControl.currentPage], for: .normal)
     }
     
     @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) { // 스와이프했을때 실행할 함수
@@ -79,7 +74,7 @@ class TodoListViewController: UIViewController {
             }
             currentIndex = todoArraySorted[pageControl.currentPage]
             todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
-            self.dateLabel.text = todoArraySorted[pageControl.currentPage]
+            self.dateLabel.setTitle(todoArraySorted[pageControl.currentPage], for: .normal)
             tableView.reloadData()
         }
     }
@@ -111,12 +106,30 @@ class TodoListViewController: UIViewController {
 //    }
     
     @IBAction func pageChanged(_ sender: Any) {
-        
         currentIndex = todoArraySorted[pageControl.currentPage]
         todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
         tableView.reloadData()
+    }
+    
+    @IBAction func dateChangeButton(_ sender: Any) {
+        
+        let pickerAlert = UIAlertController(title: "날짜를 선택해주세요", message: "\n\n\n\n\n", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.currentIndex = self.todoArraySorted[self.pageControl.currentPage]
+            self.todo.self.dictionaryIndex = self.todo.todoDictionary[self.currentIndex] ?? []
+            self.tableView.reloadData()
+            self.dateLabel.setTitle(self.currentIndex, for: .normal)
+        }
+        let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+        pickerAlert.view.addSubview(pickerFrame)
+        pickerFrame.delegate = self
+        pickerFrame.dataSource = self
+        pickerAlert.addAction(okAction)
+        
+        self.present(pickerAlert, animated: true, completion: nil)
         
     }
+    
 }
 
 extension TodoListViewController: UITableViewDataSource {
@@ -132,6 +145,25 @@ extension TodoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
+    }
+}
+
+extension TodoListViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return todoArraySorted.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return todoArraySorted[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let a = todoArraySorted[row]
+        pageControl.currentPage = todoArraySorted.firstIndex(of: a) ?? 0
     }
 }
 

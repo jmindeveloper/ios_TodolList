@@ -103,6 +103,13 @@ class AddTodoViewController: UIViewController {
         todo.dictionaryIndex.remove(at: indexPath.row)
         addTableView.deleteRows(at: [indexPath], with: .automatic)
         todo.todoDictionary[str] = todo.dictionaryIndex // todoDictionary에 삭제된 배열인 dictionaryIndex 업데이트
+        if (todo.todoDictionary[lastStr]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
+            if (todo.todoDictionary[lastStr]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
+                guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
+                todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
+                todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
+            }
+        }
     }
     
     // action

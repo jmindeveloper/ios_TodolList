@@ -27,7 +27,7 @@
                                 <rect key="frame" x="30" y="216" width="354" height="646"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="mainCell" id="mxC-Qa-SNs" customClass="MainTableViewCell" customModule="TodoList" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="mainCell" id="mxC-Qa-SNs" customClass="MainTableViewCell" customModule="TodoList" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="354" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mxC-Qa-SNs" id="Ef2-6D-I4u">
@@ -36,19 +36,23 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UQe-Sy-rie">
                                                     <rect key="frame" x="20" y="10" width="20" height="22.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="ne1-9c-my2"/>
+                                                    </constraints>
                                                     <state key="normal" image="circle" catalog="system"/>
                                                     <connections>
                                                         <action selector="stateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mSj-8K-cxc"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQD-bp-IBr">
-                                                    <rect key="frame" x="48" y="11" width="41.5" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQD-bp-IBr">
+                                                    <rect key="frame" x="48" y="11" width="261.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="AQD-bp-IBr" secondAttribute="trailing" constant="15" id="1Mx-j7-AOJ"/>
                                                 <constraint firstItem="AQD-bp-IBr" firstAttribute="leading" secondItem="UQe-Sy-rie" secondAttribute="trailing" constant="8" symbolic="YES" id="9JT-qz-CTN"/>
                                                 <constraint firstAttribute="bottom" secondItem="AQD-bp-IBr" secondAttribute="bottom" constant="12" id="Hr8-dj-Jop"/>
                                                 <constraint firstItem="UQe-Sy-rie" firstAttribute="top" secondItem="Ef2-6D-I4u" secondAttribute="top" constant="10" id="NFp-7l-abe"/>
@@ -68,33 +72,36 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="9tj-SF-3Yf"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxe-Xr-NFY">
-                                <rect key="frame" x="186" y="179" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="wzk-gh-xr7">
                                 <rect key="frame" x="146" y="834" width="122" height="28"/>
                                 <connections>
                                     <action selector="pageChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="is4-p0-PPZ"/>
                                 </connections>
                             </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ryv-hA-9cw">
+                                <rect key="frame" x="184" y="165" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="dateChangeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MCh-77-7Lz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ryv-hA-9cw" firstAttribute="top" secondItem="1oB-W8-6kE" secondAttribute="bottom" constant="15" id="2wJ-Ze-qXK"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="9aJ-sB-wgK"/>
                             <constraint firstItem="1oB-W8-6kE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Beg-ya-nRu"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="BtQ-fN-J3k"/>
-                            <constraint firstItem="kxe-Xr-NFY" firstAttribute="top" secondItem="1oB-W8-6kE" secondAttribute="bottom" constant="29" id="IKC-l0-FN3"/>
-                            <constraint firstItem="kxe-Xr-NFY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XbB-IV-bPD"/>
+                            <constraint firstItem="ryv-hA-9cw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wgj-um-yfR"/>
                             <constraint firstItem="wzk-gh-xr7" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aba-oq-rm2"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="afp-sB-Z7A"/>
                             <constraint firstItem="wzk-gh-xr7" firstAttribute="bottom" secondItem="HOR-xi-IFl" secondAttribute="bottom" id="jaQ-W8-qw9"/>
                             <constraint firstItem="1oB-W8-6kE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="lKh-Ic-CBt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HOR-xi-IFl" secondAttribute="trailing" constant="30" id="qc6-VU-eDP"/>
-                            <constraint firstItem="HOR-xi-IFl" firstAttribute="top" secondItem="kxe-Xr-NFY" secondAttribute="bottom" constant="16" id="uE9-EY-o2S"/>
+                            <constraint firstItem="HOR-xi-IFl" firstAttribute="top" secondItem="ryv-hA-9cw" secondAttribute="bottom" constant="21" id="wDW-zs-FUE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="오늘도 열심히!" id="Ih5-6Y-lXB">
@@ -106,7 +113,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="dateLabel" destination="kxe-Xr-NFY" id="FL3-1h-sSG"/>
+                        <outlet property="dateLabel" destination="ryv-hA-9cw" id="wfa-KP-4po"/>
                         <outlet property="pageControl" destination="wzk-gh-xr7" id="XU6-Nn-Jef"/>
                         <outlet property="tableView" destination="HOR-xi-IFl" id="dQg-8f-bRK"/>
                     </connections>
@@ -154,7 +161,7 @@
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="addListCell" id="ilq-mK-3wG" customClass="AddListTableViewCell" customModule="TodoList" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="addListCell" id="ilq-mK-3wG" customClass="AddListTableViewCell" customModule="TodoList" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="264" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ilq-mK-3wG" id="JpO-gm-95K">
@@ -275,6 +282,9 @@
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="x.circle" catalog="system" width="128" height="121"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
