@@ -137,9 +137,8 @@ class TodoListViewController: UIViewController {
             self.todoArraySorted.removeAll()
             self.todo.todoArray.removeAll()
             self.todo.todoDictionary.removeAll()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy년 MM월 dd일"
-            let currentDate = formatter.string(from: Date())
+            self.formatter.dateFormat = "yyyy년 MM월 dd일"
+            let currentDate = self.formatter.string(from: Date())
             self.todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
             self.todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
             self.pageControl.numberOfPages = 0
@@ -152,6 +151,15 @@ class TodoListViewController: UIViewController {
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func moveTodayDate(_ sender: Any) {
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        let currentDate = formatter.string(from: Date())
+        let currentDateString = todoArraySorted.firstIndex(of: currentDate)
+        pageControl.currentPage = currentDateString ?? 0
+        setData()
+        tableView.reloadData()
     }
     
 }
