@@ -54,7 +54,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UQe-Sy-rie">
-                                                    <rect key="frame" x="20" y="10" width="20" height="22.5"/>
+                                                    <rect key="frame" x="20" y="11" width="20" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="ne1-9c-my2"/>
                                                     </constraints>
@@ -73,9 +73,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="AQD-bp-IBr" secondAttribute="trailing" constant="15" id="1Mx-j7-AOJ"/>
                                                 <constraint firstItem="AQD-bp-IBr" firstAttribute="leading" secondItem="UQe-Sy-rie" secondAttribute="trailing" constant="8" symbolic="YES" id="9JT-qz-CTN"/>
+                                                <constraint firstItem="UQe-Sy-rie" firstAttribute="centerY" secondItem="Ef2-6D-I4u" secondAttribute="centerY" id="Amw-iJ-E2p"/>
                                                 <constraint firstAttribute="bottom" secondItem="AQD-bp-IBr" secondAttribute="bottom" constant="12" id="Hr8-dj-Jop"/>
-                                                <constraint firstItem="UQe-Sy-rie" firstAttribute="top" secondItem="Ef2-6D-I4u" secondAttribute="top" constant="10" id="NFp-7l-abe"/>
-                                                <constraint firstAttribute="bottom" secondItem="UQe-Sy-rie" secondAttribute="bottom" constant="11.5" id="Nbg-Ps-wvV"/>
                                                 <constraint firstItem="UQe-Sy-rie" firstAttribute="leading" secondItem="Ef2-6D-I4u" secondAttribute="leading" constant="20" symbolic="YES" id="On2-Qf-OZM"/>
                                                 <constraint firstItem="AQD-bp-IBr" firstAttribute="top" secondItem="Ef2-6D-I4u" secondAttribute="top" constant="11" id="bfH-dw-DeK"/>
                                             </constraints>
@@ -83,6 +82,7 @@
                                         <connections>
                                             <outlet property="detailLabel" destination="AQD-bp-IBr" id="PPV-Kz-9aD"/>
                                             <outlet property="stateButtonImage" destination="UQe-Sy-rie" id="3U0-yg-Nd3"/>
+                                            <segue destination="cf5-Ce-LMJ" kind="show" trigger="accessoryAction" id="gAb-uK-63G"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -179,6 +179,64 @@
             </objects>
             <point key="canvasLocation" x="955.07246376811599" y="83.705357142857139"/>
         </scene>
+        <!--메모작성-->
+        <scene sceneID="xLo-mL-D02">
+            <objects>
+                <viewController storyboardIdentifier="memoVC" id="cf5-Ce-LMJ" customClass="TodoMemoViewController" customModule="TodoList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HbM-gv-p5K">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dvg-sr-u8d" userLabel="날짜">
+                                <rect key="frame" x="186" y="119" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6w-g9-20L" userLabel="todo">
+                                <rect key="frame" x="186.5" y="148" width="41.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wsr-XV-Sbc" userLabel="todo 메모">
+                                <rect key="frame" x="0.0" y="177" width="414" height="685"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cUV-8a-TOR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wsr-XV-Sbc" firstAttribute="leading" secondItem="cUV-8a-TOR" secondAttribute="leading" id="CeZ-Me-5yA"/>
+                            <constraint firstItem="cUV-8a-TOR" firstAttribute="bottom" secondItem="wsr-XV-Sbc" secondAttribute="bottom" id="Fii-KQ-mAG"/>
+                            <constraint firstItem="Dvg-sr-u8d" firstAttribute="centerX" secondItem="HbM-gv-p5K" secondAttribute="centerX" id="Gnn-Ek-HtK"/>
+                            <constraint firstItem="wsr-XV-Sbc" firstAttribute="top" secondItem="r6w-g9-20L" secondAttribute="bottom" constant="8.5" id="JHQ-wX-jNf"/>
+                            <constraint firstItem="cUV-8a-TOR" firstAttribute="trailing" secondItem="wsr-XV-Sbc" secondAttribute="trailing" id="cyx-k3-Afa"/>
+                            <constraint firstItem="r6w-g9-20L" firstAttribute="top" secondItem="Dvg-sr-u8d" secondAttribute="bottom" constant="8" symbolic="YES" id="f8L-Jn-nee"/>
+                            <constraint firstItem="Dvg-sr-u8d" firstAttribute="top" secondItem="cUV-8a-TOR" secondAttribute="top" constant="31" id="kTq-Py-iFA"/>
+                            <constraint firstItem="r6w-g9-20L" firstAttribute="centerX" secondItem="HbM-gv-p5K" secondAttribute="centerX" id="yuS-Dh-xzg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="메모작성" id="g5f-tb-tXM">
+                        <barButtonItem key="rightBarButtonItem" title="save" id="uXy-6y-9PZ">
+                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="saveButton:" destination="cf5-Ce-LMJ" id="hi3-LD-Pke"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dateLabel" destination="Dvg-sr-u8d" id="lur-qV-mfr"/>
+                        <outlet property="todoLabel" destination="r6w-g9-20L" id="ldo-0F-9W8"/>
+                        <outlet property="todoMemoTextView" destination="wsr-XV-Sbc" id="A4A-Bz-2Wt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h9z-7Q-UhP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="953.62318840579712" y="750.66964285714278"/>
+        </scene>
         <!--할일추가-->
         <scene sceneID="XvE-uo-xVH">
             <objects>
@@ -207,7 +265,7 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="할 일을 추가해주세요" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E7E-JT-oFf">
                                 <rect key="frame" x="75" y="278" width="220" height="34"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dui-Hx-QSK">
                                 <rect key="frame" x="75" y="369" width="264" height="429"/>

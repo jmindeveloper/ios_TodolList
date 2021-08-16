@@ -73,13 +73,16 @@ class AddTodoViewController: UIViewController {
         if todo.todoArray.contains(str) != true { // todoArray에 str이 없을때
             todo.todoArray.append(str) // todoArray에 str 저장
             todo.todoDictionary[str] = [] // todoDictionary의 key에 str 저장
+            todo.memoDictionary[str] = [] // memoDictionary의 key에 str 저장
+            print("todoDictionary --> \(todo.memoDictionary)")
         }
         
         if (todo.todoDictionary[lastStr]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
             if (todo.todoDictionary[lastStr]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
                 guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
-                todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
+                todo.todoDictionary[lastStr] = nil // todoDictionary에 lastStr키 삭제
+                todo.memoDictionary[lastStr] = nil // memoDictionary에 lastStr키 삭제
             }
         }
         
@@ -99,14 +102,17 @@ class AddTodoViewController: UIViewController {
         todo.dictionaryIndex.remove(at: indexPath.row)
         addTableView.deleteRows(at: [indexPath], with: .automatic)
         todo.todoDictionary[str] = todo.dictionaryIndex // todoDictionary에 삭제된 배열인 dictionaryIndex 업데이트
+        todo.memoDictionary[str]?.remove(at: indexPath.row)
         if (todo.todoDictionary[lastStr]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
             if (todo.todoDictionary[lastStr]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
                 guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
+                todo.memoDictionary[lastStr] = nil
                 todo.storage()
             }
         }
+        print("삭제 --> \(todo.memoDictionary)")
     }
     
     // action
@@ -135,6 +141,8 @@ class AddTodoViewController: UIViewController {
         }
         if a == true , b == true { // a와 b가 모두 true 일때
             todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
+            todo.memoDictionary[str]?.append("")
+            print("추가 --> \(todo.memoDictionary)")
 //            if todo.todoArray.contains("") {
 //                todo.todoArray.removeFirst()
 //            }
@@ -164,13 +172,16 @@ extension AddTodoViewController: UITableViewDataSource {
         cell.deleteBtn.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
         return cell
     }
-    // 셀 삭제
+    // 셀 이동
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let str = dateTextField.text!
         
         let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
+        guard let moveMemo = todo.memoDictionary[str]?[sourceIndexPath.row] else { return }
         todo.dictionaryIndex.remove(at: sourceIndexPath.row)
         todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
+        todo.memoDictionary[str]?.remove(at: sourceIndexPath.row)
+        todo.memoDictionary[str]?.insert(moveMemo, at: destinationIndexPath.row)
         todo.todoDictionary[str] = todo.dictionaryIndex
     }
 }

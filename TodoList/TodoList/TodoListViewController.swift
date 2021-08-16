@@ -52,11 +52,20 @@ class TodoListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        let currentDate = formatter.string(from: Date())
+        print(currentDate)
+        if todo.todoArray.contains(currentDate) != true { // 오늘날짜에 해당하는 array값이 없으면
+            todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
+            todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
+            todo.memoDictionary[currentDate] = []
+        }
         todoArraySorted = todo.todoArray.sorted(by: <)
-        setData()
         pageControl.numberOfPages = todo.todoArray.count
-        tableView.reloadData()
         print(pageControl.numberOfPages)
+        setData()
+        tableView.reloadData()
     }
     
     func setData() {
@@ -121,6 +130,7 @@ class TodoListViewController: UIViewController {
         }
         setData()
         tableView.reloadData()
+        
     }
     
     @IBAction func rightButton(_ sender: Any) {
@@ -164,7 +174,7 @@ class TodoListViewController: UIViewController {
     
 }
 
-extension TodoListViewController: UITableViewDataSource {
+extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todo.dictionaryIndex.count
     }
@@ -177,6 +187,18 @@ extension TodoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let memoVC = self.storyboard?.instantiateViewController(withIdentifier: "memoVC") as? TodoMemoViewController else { return }
+        memoVC.dateString = todoArraySorted[pageControl.currentPage]
+        memoVC.todoString = todo.todoDictionary[memoVC.dateString]![indexPath.row]
+        memoVC.todoIndex = indexPath.row
+        memoVC.memoString = todo.memoDictionary[memoVC.dateString]![indexPath.row]
+        
+        print("넘겨준값 --> \(indexPath.row)")
+        
+        self.navigationController?.pushViewController(memoVC, animated: true)
     }
 }
 
