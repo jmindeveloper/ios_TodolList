@@ -12,7 +12,7 @@ class TodoListViewController: UIViewController {
     let todo = Todo.shared // 싱글톤
     var currentIndex: String = ""
     var todoArraySorted: [String] = []
-    var pickerView = UIPickerView()
+    let formatter = DateFormatter()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateLabel: UIButton!
@@ -25,7 +25,6 @@ class TodoListViewController: UIViewController {
         print("viewdidload")
         
         // pageControl
-        pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .black
         print(pageControl.currentPage)
@@ -38,22 +37,31 @@ class TodoListViewController: UIViewController {
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.view.addGestureRecognizer(swipeRight)
         
-        // 불러오기
-        todo.todoArray = UserDefaults.standard.array(forKey: "todoArray") as? [String] ?? [""]
-        todo.todoDictionary = UserDefaults.standard.dictionary(forKey: "todoDictionary") as? [String: [String]] ?? [:]
-        print(todo.todoArray)
-        print(todo.todoDictionary)
+        // navigationBackBarButtonItem Custom
+        let backBarButtonItem = UIBarButtonItem(title: "back", style: .plain, target: self, action: nil)
+        backBarButtonItem.tintColor = .darkGray
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        
+        // 앱 실행시 현재날짜로 보여주기
+        pageControl.numberOfPages = todo.todoArray.count
+        todoArraySorted = todo.todoArray.sorted(by: <)
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        let currentDate = formatter.string(from: Date())
+        let currentIndex = todoArraySorted.firstIndex(of: currentDate)
+        pageControl.currentPage = currentIndex ?? 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        currentIndex = todo.todoArray[pageControl.currentPage]
-        todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
+        todoArraySorted = todo.todoArray.sorted(by: <)
+        setData()
         pageControl.numberOfPages = todo.todoArray.count
         tableView.reloadData()
         print(pageControl.numberOfPages)
-        
-        todoArraySorted = todo.todoArray.sorted(by: <)
-        
+    }
+    
+    func setData() {
+        currentIndex = todoArraySorted[pageControl.currentPage]
+        todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
         self.dateLabel.setTitle(todoArraySorted[pageControl.currentPage], for: .normal)
     }
     
@@ -72,42 +80,13 @@ class TodoListViewController: UIViewController {
 
                 break
             }
-            currentIndex = todoArraySorted[pageControl.currentPage]
-            todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
-            self.dateLabel.setTitle(todoArraySorted[pageControl.currentPage], for: .normal)
+            setData()
             tableView.reloadData()
         }
     }
-
-    
-//    @objc func stateButton(sender: UIButton) {
-//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//        let action1 = UIAlertAction(title: "완료", style: .default) { _ in
-//            let image = UIImage(named: "circle.fill")
-//            image?.withTintColor(.darkGray)
-//            sender.setImage(image, for: .normal)
-//        }
-//        let action2 = UIAlertAction(title: "진행중", style: .default) { _ in
-//            let image = UIImage(named: "circle.lefthalf.fill")
-//            image?.withTintColor(.darkGray)
-//            sender.setImage(image, for: .normal)
-//        }
-//        let action3 = UIAlertAction(title: "진행전", style: .default) { _ in
-//            let image = UIImage(named: "circle")
-//            image?.withTintColor(.darkGray)
-//            sender.setImage(image, for: .normal)
-//        }
-//        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-//        alert.addAction(action1)
-//        alert.addAction(action2)
-//        alert.addAction(action3)
-//        alert.addAction(cancelAction)
-//        self.present(alert, animated: true, completion: nil)
-//    }
     
     @IBAction func pageChanged(_ sender: Any) {
-        currentIndex = todoArraySorted[pageControl.currentPage]
-        todo.dictionaryIndex = todo.todoDictionary[currentIndex] ?? []
+        setData()
         tableView.reloadData()
     }
     
@@ -115,12 +94,18 @@ class TodoListViewController: UIViewController {
         
         let pickerAlert = UIAlertController(title: "날짜를 선택해주세요", message: "\n\n\n\n\n", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.currentIndex = self.todoArraySorted[self.pageControl.currentPage]
-            self.todo.self.dictionaryIndex = self.todo.todoDictionary[self.currentIndex] ?? []
+            self.setData()
             self.tableView.reloadData()
-            self.dateLabel.setTitle(self.currentIndex, for: .normal)
         }
         let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+        let a = todoArraySorted[pageControl.currentPage]
+        print(a)
+        if let indexPosition = todoArraySorted.firstIndex(of: a) {
+            pickerFrame.selectRow(indexPosition, inComponent: 0, animated: true)
+            print(indexPosition)
+        }
+        
+//        pickerFrame.selectRow(3, inComponent: 0, animated: true)
         pickerAlert.view.addSubview(pickerFrame)
         pickerFrame.delegate = self
         pickerFrame.dataSource = self
@@ -128,6 +113,35 @@ class TodoListViewController: UIViewController {
         
         self.present(pickerAlert, animated: true, completion: nil)
         
+    }
+    
+    @IBAction func leftButton(_ sender: Any) {
+        if (pageControl.currentPage > 0) {
+            pageControl.currentPage = pageControl.currentPage - 1
+        }
+        setData()
+        tableView.reloadData()
+    }
+    
+    @IBAction func rightButton(_ sender: Any) {
+        if (pageControl.currentPage < pageControl.numberOfPages - 1) {
+            pageControl.currentPage = pageControl.currentPage + 1
+        }
+        setData()
+        tableView.reloadData()
+    }
+    @IBAction func removeAllData(_ sender: Any) {
+        let alert = UIAlertController(title: "경고", message: "모든 Todo를 삭제하겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+//            self.todoArraySorted.removeAll()
+//            self.todo.todoArray.removeAll()
+//            self.todo.todoDictionary.removeAll()
+//            self.todo.storage()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

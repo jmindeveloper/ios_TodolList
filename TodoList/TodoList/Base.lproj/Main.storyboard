@@ -26,6 +26,25 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HOR-xi-IFl">
                                 <rect key="frame" x="30" y="216" width="354" height="646"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="lWM-iS-Wep">
+                                    <rect key="frame" x="0.0" y="93.000000346790671" width="354" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RYL-Cg-IN7">
+                                            <rect key="frame" x="144.5" y="12.5" width="65" height="19"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal" title="수정하기" image="pencil.circle" catalog="system">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="RYL-Cg-IN7" firstAttribute="centerY" secondItem="lWM-iS-Wep" secondAttribute="centerY" id="DA6-Yo-gDl"/>
+                                        <constraint firstItem="RYL-Cg-IN7" firstAttribute="centerX" secondItem="lWM-iS-Wep" secondAttribute="centerX" id="h3c-2W-b3O"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="mainCell" id="mxC-Qa-SNs" customClass="MainTableViewCell" customModule="TodoList" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="24.5" width="354" height="44"/>
@@ -87,6 +106,26 @@
                                     <action selector="dateChangeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MCh-77-7Lz"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xkf-NO-YQ5" userLabel="leftButton">
+                                <rect key="frame" x="163.5" y="169" width="12.5" height="22"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.left" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="leftButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Yj-Hg-XmH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWg-IU-C61" userLabel="rightButton">
+                                <rect key="frame" x="238" y="169" width="12.5" height="22"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="chevron.right" catalog="system">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="rightButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kff-yW-tCA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -95,22 +134,37 @@
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="9aJ-sB-wgK"/>
                             <constraint firstItem="1oB-W8-6kE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Beg-ya-nRu"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="BtQ-fN-J3k"/>
+                            <constraint firstItem="Xkf-NO-YQ5" firstAttribute="top" secondItem="1oB-W8-6kE" secondAttribute="bottom" constant="19" id="E9W-wl-tMH"/>
                             <constraint firstItem="ryv-hA-9cw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wgj-um-yfR"/>
                             <constraint firstItem="wzk-gh-xr7" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="aba-oq-rm2"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="afp-sB-Z7A"/>
+                            <constraint firstItem="XWg-IU-C61" firstAttribute="top" secondItem="1oB-W8-6kE" secondAttribute="bottom" constant="19" id="ejO-vK-RDY"/>
+                            <constraint firstItem="XWg-IU-C61" firstAttribute="leading" secondItem="ryv-hA-9cw" secondAttribute="trailing" constant="8" symbolic="YES" id="hbd-MU-PYH"/>
                             <constraint firstItem="wzk-gh-xr7" firstAttribute="bottom" secondItem="HOR-xi-IFl" secondAttribute="bottom" id="jaQ-W8-qw9"/>
                             <constraint firstItem="1oB-W8-6kE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="41" id="lKh-Ic-CBt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HOR-xi-IFl" secondAttribute="trailing" constant="30" id="qc6-VU-eDP"/>
+                            <constraint firstItem="ryv-hA-9cw" firstAttribute="leading" secondItem="Xkf-NO-YQ5" secondAttribute="trailing" constant="8" symbolic="YES" id="tuB-rz-XRG"/>
                             <constraint firstItem="HOR-xi-IFl" firstAttribute="top" secondItem="ryv-hA-9cw" secondAttribute="bottom" constant="21" id="wDW-zs-FUE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="오늘도 열심히!" id="Ih5-6Y-lXB">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="nWX-L5-c4j">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="trash" catalog="system" id="2qq-5q-IIS">
                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="rmw-Ju-AXS" kind="show" id="Ofh-FM-nxC"/>
+                                <action selector="removeAllData:" destination="BYZ-38-t0r" id="qHn-JJ-0zi"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="nWX-L5-c4j">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="rmw-Ju-AXS" kind="show" id="Ofh-FM-nxC"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="today" id="EZl-9v-lb3">
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="dateLabel" destination="ryv-hA-9cw" id="wfa-KP-4po"/>
@@ -279,8 +333,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <image name="circle" catalog="system" width="128" height="121"/>
+        <image name="pencil.circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <image name="x.circle" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -11,9 +11,36 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    let todo = Todo.shared
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool { // 앱 실행시
+        print("앱실행")
+        
+        // 불러오기
+        todo.todoArray = (UserDefaults.standard.array(forKey: "todoArray") as? [String]) ?? []
+        todo.todoDictionary = UserDefaults.standard.dictionary(forKey: "todoDictionary") as? [String: [String]] ?? [:]
+        
+        for (key) in todo.todoDictionary.keys {
+            print("Todo Dictionary Keys --> \(key)")
+            if todo.todoDictionary[key] == [] { // 딕셔너리의 key중 빈 array가 있으면
+                todo.todoArray.remove(at: todo.todoArray.firstIndex(of: key)!) // array에서 지우기
+                todo.todoDictionary[key] = nil // 딕셔너리에서도 지우기
+            }
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일"
+        let currentDate = formatter.string(from: Date())
+        print(currentDate)
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        if todo.todoArray.contains(currentDate) != true { // 오늘날짜에 해당하는 array값이 없으면
+            todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
+            todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
+        }
+
+        print(todo.todoArray)
+        print(todo.todoDictionary)
+        
         // Override point for customization after application launch.
         return true
     }
@@ -23,6 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
+        
+        
+        
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 

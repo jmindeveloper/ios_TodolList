@@ -33,10 +33,6 @@ class AddTodoViewController: UIViewController {
         addTableView.dragDelegate = self
         addTableView.dropDelegate = self
         
-        // 네비게이션바 백버튼 커스텀
-        self.navigationController?.navigationBar.tintColor = .darkGray
-        self.navigationController?.navigationBar.topItem?.title = "Back"
-        
         todo.currentDate = ""
         todo.dictionaryIndex = []
     }
@@ -108,6 +104,7 @@ class AddTodoViewController: UIViewController {
                 guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
+                todo.storage()
             }
         }
     }
@@ -138,9 +135,9 @@ class AddTodoViewController: UIViewController {
         }
         if a == true , b == true { // a와 b가 모두 true 일때
             todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
-            if todo.todoArray.contains("") {
-                todo.todoArray.removeFirst()
-            }
+//            if todo.todoArray.contains("") {
+//                todo.todoArray.removeFirst()
+//            }
         }
         
         guard let firstIndex = todo.todoArray.firstIndex(of: str) else { return } // firstIndex값에 str값 index 저장
@@ -150,6 +147,7 @@ class AddTodoViewController: UIViewController {
         todoTextField.text = ""
         addTableView.reloadData()
         print(todo.dictionaryIndex)
+        todo.storage()
     }
 }
 
