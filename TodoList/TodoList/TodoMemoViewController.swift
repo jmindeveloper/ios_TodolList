@@ -75,6 +75,7 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
             return
         }
         todo.memoDictionary[dateString]?[todoIndex] = todoMemoTextView.text
+        todo.storage()
         print(todo.memoDictionary)
         self.navigationController?.popViewController(animated: true)
     }
