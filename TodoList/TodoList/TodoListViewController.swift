@@ -134,10 +134,20 @@ class TodoListViewController: UIViewController {
         let alert = UIAlertController(title: "경고", message: "모든 Todo를 삭제하겠습니까?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         let okAction = UIAlertAction(title: "확인", style: .default) { _ in
-//            self.todoArraySorted.removeAll()
-//            self.todo.todoArray.removeAll()
-//            self.todo.todoDictionary.removeAll()
-//            self.todo.storage()
+            self.todoArraySorted.removeAll()
+            self.todo.todoArray.removeAll()
+            self.todo.todoDictionary.removeAll()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy년 MM월 dd일"
+            let currentDate = formatter.string(from: Date())
+            self.todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
+            self.todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
+            self.pageControl.numberOfPages = 0
+            self.pageControl.currentPage = 0
+            self.todoArraySorted = self.todo.todoArray.sorted(by: <)
+            self.setData()
+            self.tableView.reloadData()
+            self.todo.storage()
         }
         alert.addAction(cancelAction)
         alert.addAction(okAction)
