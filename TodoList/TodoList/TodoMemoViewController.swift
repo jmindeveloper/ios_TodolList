@@ -44,7 +44,7 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if todoMemoTextView.textColor == .lightGray {
             todoMemoTextView.text = nil
-            todoMemoTextView.textColor = .black
+            todoMemoTextView.textColor = .label
         }
     }
 //    

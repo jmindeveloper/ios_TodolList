@@ -147,10 +147,12 @@ class TodoListViewController: UIViewController {
             self.todoArraySorted.removeAll()
             self.todo.todoArray.removeAll()
             self.todo.todoDictionary.removeAll()
+            self.todo.memoDictionary.removeAll() 
             self.formatter.dateFormat = "yyyy년 MM월 dd일"
             let currentDate = self.formatter.string(from: Date())
             self.todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
             self.todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
+            self.todo.memoDictionary[currentDate] = []
             self.pageControl.numberOfPages = 0
             self.pageControl.currentPage = 0
             self.todoArraySorted = self.todo.todoArray.sorted(by: <)
@@ -194,7 +196,7 @@ extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
         memoVC.dateString = todoArraySorted[pageControl.currentPage]
         memoVC.todoString = todo.todoDictionary[memoVC.dateString]![indexPath.row]
         memoVC.todoIndex = indexPath.row
-        memoVC.memoString = todo.memoDictionary[memoVC.dateString]![indexPath.row]
+        memoVC.memoString = todo.memoDictionary[memoVC.dateString]?[indexPath.row] ?? ""
         
         print("넘겨준값 --> \(indexPath.row)")
         

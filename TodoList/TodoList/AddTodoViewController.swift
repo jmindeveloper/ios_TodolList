@@ -109,6 +109,7 @@ class AddTodoViewController: UIViewController {
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
                 todo.memoDictionary[lastStr] = nil
+                print(todo.todoArray)
                 todo.storage()
             }
         }
@@ -140,9 +141,22 @@ class AddTodoViewController: UIViewController {
             }
         }
         if a == true , b == true { // a와 b가 모두 true 일때
-            todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
-            todo.memoDictionary[str]?.append("")
-            print("추가 --> \(todo.memoDictionary)")
+            
+            if todo.todoArray.contains(str) != true { // todoArray에 str이 없을때
+                todo.todoArray.append(str) // todoArray에 str 저장
+                todo.todoDictionary[str] = [str2] // todoDictionary의 key에 str 저장
+                todo.memoDictionary[str] = [""] // memoDictionary의 key에 str 저장
+                print("todoDictionary --> \(todo.memoDictionary)")
+            } else {
+                todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
+                todo.memoDictionary[str]?.append("")
+            }
+            
+            
+            
+//            todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
+//            todo.memoDictionary[str]?.append("")
+//            print("추가 --> \(todo.memoDictionary)")
 //            if todo.todoArray.contains("") {
 //                todo.todoArray.removeFirst()
 //            }
