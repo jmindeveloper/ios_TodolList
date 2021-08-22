@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E421B5226C8DC87002CA046 /* 주석.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E421B5126C8DC87002CA046 /* 주석.swift */; };
+		0E8642F126D22B3B00D8AE32 /* ChangeTodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8642F026D22B3B00D8AE32 /* ChangeTodoListViewController.swift */; };
 		0E92B7A526BE8B4B00CE1D7D /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92B7A426BE8B4B00CE1D7D /* Todo.swift */; };
 		0E92B7A726BE8B6200CE1D7D /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92B7A626BE8B6200CE1D7D /* TodoListViewController.swift */; };
 		0E92B7A926BE8B7100CE1D7D /* AddTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92B7A826BE8B7100CE1D7D /* AddTodoViewController.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		0E421B5126C8DC87002CA046 /* 주석.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "주석.swift"; sourceTree = "<group>"; };
+		0E8642F026D22B3B00D8AE32 /* ChangeTodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTodoListViewController.swift; sourceTree = "<group>"; };
 		0E92B7A426BE8B4B00CE1D7D /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		0E92B7A626BE8B6200CE1D7D /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		0E92B7A826BE8B7100CE1D7D /* AddTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoViewController.swift; sourceTree = "<group>"; };
@@ -78,13 +80,14 @@
 				0EA5BFB626BA5D2100EC7DF6 /* Main.storyboard */,
 				0E92B7A426BE8B4B00CE1D7D /* Todo.swift */,
 				0E92B7A626BE8B6200CE1D7D /* TodoListViewController.swift */,
+				0E8642F026D22B3B00D8AE32 /* ChangeTodoListViewController.swift */,
 				0E421B5126C8DC87002CA046 /* 주석.swift */,
+				0ED469B326CA24B100A66EE3 /* TodoMemoViewController.swift */,
 				0E92B7A826BE8B7100CE1D7D /* AddTodoViewController.swift */,
 				0EA5BFBC26BA5D2200EC7DF6 /* Assets.xcassets */,
 				0EA5BFBE26BA5D2200EC7DF6 /* LaunchScreen.storyboard */,
 				0EA5BFC126BA5D2200EC7DF6 /* Info.plist */,
 				0EA5BFB926BA5D2100EC7DF6 /* TodoList.xcdatamodeld */,
-				0ED469B326CA24B100A66EE3 /* TodoMemoViewController.swift */,
 			);
 			path = TodoList;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 				0E92B7A726BE8B6200CE1D7D /* TodoListViewController.swift in Sources */,
 				0E92B7A926BE8B7100CE1D7D /* AddTodoViewController.swift in Sources */,
 				0ED469B426CA24B100A66EE3 /* TodoMemoViewController.swift in Sources */,
+				0E8642F126D22B3B00D8AE32 /* ChangeTodoListViewController.swift in Sources */,
 				0E421B5226C8DC87002CA046 /* 주석.swift in Sources */,
 				0EA5BFB126BA5D2100EC7DF6 /* AppDelegate.swift in Sources */,
 				0EA5BFB326BA5D2100EC7DF6 /* SceneDelegate.swift in Sources */,

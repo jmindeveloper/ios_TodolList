@@ -177,6 +177,11 @@ class TodoListViewController: UIViewController {
         tableView.reloadData()
     }
     
+    @IBAction func changeTodoButton(_ sender: Any) {
+        guard let changeVC = self.storyboard?.instantiateViewController(withIdentifier: "changeTodo") as? ChangeTodoListViewController else { return }
+        changeVC.currentDate = todoArraySorted[pageControl.currentPage]
+        self.navigationController?.pushViewController(changeVC, animated: true)
+    }
 }
 
 extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
