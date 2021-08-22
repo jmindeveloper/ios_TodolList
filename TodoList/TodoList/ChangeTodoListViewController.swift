@@ -25,14 +25,38 @@ class ChangeTodoListViewController: UIViewController {
         tableView.layer.borderColor = UIColor.lightGray.cgColor
         tableView.layer.borderWidth = 2
         tableView.layer.cornerRadius = 10
-        self.tableView.dataSource = self
-        
+        tableView.dataSource = self
+        tableView.dragInteractionEnabled = true
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
                 
         dateLabel.text = currentDate
         dateLabel2.text = currentDate
         currentDateArray = todo.todoDictionary[currentDate]!
         print(currentDateArray.count)
 
+    }
+    
+    @objc func deleteBtnAction(_ sender: UIButton) { // 삭제
+
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: point) else { return }
+        currentDateArray.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        todo.todoDictionary[currentDate] = currentDateArray
+
+        todo.memoDictionary[currentDate]?.remove(at: indexPath.row)
+        if (todo.todoDictionary[currentDate]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
+            if (todo.todoDictionary[currentDate]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
+                guard let firstIndex = todo.todoArray.firstIndex(of: currentDate) else { return }
+                todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
+                todo.todoDictionary[currentDate] = nil // todoDictionry에 lastStr키 삭제
+                todo.memoDictionary[currentDate] = nil
+                print(todo.todoArray)
+                todo.storage()
+            }
+        }
     }
     
     @IBAction func addButton(_ sender: Any) {
@@ -51,7 +75,25 @@ extension ChangeTodoListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.label.text = currentDateArray[indexPath.row]
+        cell.deleteButton.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
         return cell
+    }
+}
+
+extension ChangeTodoListViewController: UITableViewDragDelegate, UITableViewDropDelegate {
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        return
+    }
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        return [UIDragItem(itemProvider: NSItemProvider())]
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        if session.localDragSession != nil {
+            return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+        }
+        return UITableViewDropProposal(operation: .cancel, intent: .unspecified)
     }
 }
 
