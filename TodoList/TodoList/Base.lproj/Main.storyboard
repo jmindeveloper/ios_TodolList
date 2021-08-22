@@ -188,32 +188,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dvg-sr-u8d" userLabel="날짜">
-                                <rect key="frame" x="186" y="119" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="188.5" y="119" width="37.5" height="17"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6w-g9-20L" userLabel="todo">
-                                <rect key="frame" x="186.5" y="148" width="41.5" height="20.5"/>
+                                <rect key="frame" x="50" y="144" width="314" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wsr-XV-Sbc" userLabel="todo 메모">
-                                <rect key="frame" x="0.0" y="177" width="414" height="685"/>
+                                <rect key="frame" x="30" y="173" width="354" height="689"/>
                                 <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" keyboardAppearance="alert" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cUV-8a-TOR"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="wsr-XV-Sbc" firstAttribute="leading" secondItem="cUV-8a-TOR" secondAttribute="leading" id="CeZ-Me-5yA"/>
+                            <constraint firstItem="r6w-g9-20L" firstAttribute="leading" secondItem="cUV-8a-TOR" secondAttribute="leading" constant="50" id="36G-OY-sTq"/>
+                            <constraint firstItem="wsr-XV-Sbc" firstAttribute="leading" secondItem="cUV-8a-TOR" secondAttribute="leading" constant="30" id="CeZ-Me-5yA"/>
                             <constraint firstItem="cUV-8a-TOR" firstAttribute="bottom" secondItem="wsr-XV-Sbc" secondAttribute="bottom" id="Fii-KQ-mAG"/>
                             <constraint firstItem="Dvg-sr-u8d" firstAttribute="centerX" secondItem="HbM-gv-p5K" secondAttribute="centerX" id="Gnn-Ek-HtK"/>
+                            <constraint firstItem="cUV-8a-TOR" firstAttribute="trailing" secondItem="r6w-g9-20L" secondAttribute="trailing" constant="50" id="HyJ-HX-bsy"/>
                             <constraint firstItem="wsr-XV-Sbc" firstAttribute="top" secondItem="r6w-g9-20L" secondAttribute="bottom" constant="8.5" id="JHQ-wX-jNf"/>
-                            <constraint firstItem="cUV-8a-TOR" firstAttribute="trailing" secondItem="wsr-XV-Sbc" secondAttribute="trailing" id="cyx-k3-Afa"/>
+                            <constraint firstItem="cUV-8a-TOR" firstAttribute="trailing" secondItem="wsr-XV-Sbc" secondAttribute="trailing" constant="30" id="cyx-k3-Afa"/>
                             <constraint firstItem="r6w-g9-20L" firstAttribute="top" secondItem="Dvg-sr-u8d" secondAttribute="bottom" constant="8" symbolic="YES" id="f8L-Jn-nee"/>
                             <constraint firstItem="Dvg-sr-u8d" firstAttribute="top" secondItem="cUV-8a-TOR" secondAttribute="top" constant="31" id="kTq-Py-iFA"/>
                             <constraint firstItem="r6w-g9-20L" firstAttribute="centerX" secondItem="HbM-gv-p5K" secondAttribute="centerX" id="yuS-Dh-xzg"/>

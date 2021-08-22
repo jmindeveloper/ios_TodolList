@@ -35,6 +35,11 @@ class AddTodoViewController: UIViewController {
         
         todo.currentDate = ""
         todo.dictionaryIndex = []
+        
+        // tableView
+        addTableView.layer.borderColor = UIColor.lightGray.cgColor
+        addTableView.layer.borderWidth = 2
+        addTableView.layer.cornerRadius = 10
     }
     
     override func viewWillDisappear(_ animated: Bool) {

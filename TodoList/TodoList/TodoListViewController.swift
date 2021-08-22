@@ -22,7 +22,10 @@ class TodoListViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationItem.title = "오늘도 열심히!"
         
-        print("viewdidload")
+        // tableView
+        tableView.layer.borderColor = UIColor.lightGray.cgColor
+        tableView.layer.borderWidth = 2
+        tableView.layer.cornerRadius = 10
         
         // pageControl
         pageControl.pageIndicatorTintColor = .lightGray
