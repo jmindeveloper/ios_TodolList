@@ -110,6 +110,8 @@ class TodoListViewController: UIViewController {
             self.tableView.reloadData()
         }
         let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+        pickerFrame.delegate = self
+        pickerFrame.dataSource = self
         let a = todoArraySorted[pageControl.currentPage]
         print(a)
         if let indexPosition = todoArraySorted.firstIndex(of: a) {
@@ -119,8 +121,6 @@ class TodoListViewController: UIViewController {
         
 //        pickerFrame.selectRow(3, inComponent: 0, animated: true)
         pickerAlert.view.addSubview(pickerFrame)
-        pickerFrame.delegate = self
-        pickerFrame.dataSource = self
         pickerAlert.addAction(okAction)
         
         self.present(pickerAlert, animated: true, completion: nil)

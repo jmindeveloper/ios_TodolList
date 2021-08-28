@@ -34,7 +34,31 @@ class ChangeTodoListViewController: UIViewController {
         dateLabel2.text = currentDate
         currentDateArray = todo.todoDictionary[currentDate]!
         print(currentDateArray.count)
-
+        
+        // navigation
+        self.navigationItem.title = "Todo 수정"
+        let deleteImage = UIImage(systemName: "trash")
+        let deleteButton = UIBarButtonItem(image: deleteImage, style: .plain, target: self, action: #selector(allDeleteButtonAction(_:)))
+        deleteButton.tintColor = .darkGray
+        self.navigationItem.rightBarButtonItem = deleteButton
+        
+    }
+    
+    @objc func allDeleteButtonAction(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "경고", message: "\(currentDate)의 Todo를 전부 삭제하시겠습니까?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+            let currentDateIndex = self.todo.todoArray.firstIndex(of: self.currentDate)
+            self.todo.todoArray.remove(at: currentDateIndex!)
+            self.todo.todoDictionary[self.currentDate] = nil
+            self.todo.memoDictionary[self.currentDate] = nil
+            self.currentDateArray = []
+            self.tableView.reloadData()
+            self.todo.storage()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func deleteBtnAction(_ sender: UIButton) { // 삭제
@@ -61,6 +85,35 @@ class ChangeTodoListViewController: UIViewController {
     
     @IBAction func addButton(_ sender: Any) {
         
+        let str = textField.text!
+        
+        if str == "" { // str2값이 빈값일때
+            let alert = UIAlertController(title: nil, message: "내용을 입력해주세요", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            if todo.todoArray.contains(currentDate) != true { // todoArray에 currentDate이 없을때
+                todo.todoArray.append(currentDate) // todoArray에 currentDate 저장
+                todo.todoDictionary[currentDate] = [str] // todoDictionary의 key에 currentDate 저장
+                todo.memoDictionary[currentDate] = [""] // memoDictionary의 key에 currentDate 저장
+                print("todoDictionary --> \(todo.memoDictionary)")
+            } else {
+                todo.todoDictionary[currentDate]?.append(str) // todoDictionary의 currentDate키의 배열에 str 저장
+                todo.memoDictionary[currentDate]?.append("")
+            }
+        }
+
+        guard let firstIndex = todo.todoArray.firstIndex(of: currentDate) else { return } // firstIndex값에 str값 index 저장
+        print(firstIndex)
+        todo.currentDate = todo.todoArray[firstIndex] // currentDate에 firstIndex값에 해당하는 값 저장
+        todo.dictionaryIndex = todo.todoDictionary[todo.currentDate] ?? [] // dictionaryIndex에 todoDictionary의 currentDate값에 해당하는 key의 배열 저장
+        self.currentDateArray.append(str)
+        print("currentDateArray --> \(currentDateArray)")
+        
+        textField.text = ""
+        tableView.reloadData()
+        todo.storage()
     }
     
 }
@@ -78,6 +131,18 @@ extension ChangeTodoListViewController: UITableViewDataSource {
         cell.deleteButton.addTarget(self, action: #selector(deleteBtnAction), for: .touchUpInside)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
+        guard let moveMemo = todo.memoDictionary[currentDate]?[sourceIndexPath.row] else { return }
+        todo.dictionaryIndex.remove(at: sourceIndexPath.row)
+        todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
+        todo.memoDictionary[currentDate]?.remove(at: sourceIndexPath.row)
+        todo.memoDictionary[currentDate]?.insert(moveMemo, at: destinationIndexPath.row)
+        todo.todoDictionary[currentDate] = todo.dictionaryIndex
+    }
+    
 }
 
 extension ChangeTodoListViewController: UITableViewDragDelegate, UITableViewDropDelegate {
@@ -99,9 +164,7 @@ extension ChangeTodoListViewController: UITableViewDragDelegate, UITableViewDrop
 
 class ChangeCell: UITableViewCell {
     
-    
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
-    
-    
+
 }
