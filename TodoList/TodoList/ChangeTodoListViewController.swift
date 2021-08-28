@@ -44,6 +44,10 @@ class ChangeTodoListViewController: UIViewController {
         
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+    }
+    
     @objc func allDeleteButtonAction(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "경고", message: "\(currentDate)의 Todo를 전부 삭제하시겠습니까?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)

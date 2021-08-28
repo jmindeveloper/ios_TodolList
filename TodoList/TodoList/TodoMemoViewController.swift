@@ -57,6 +57,10 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+    }
+    
     func placeHolderSetting() {
         if todoMemoTextView.text == "" {
             todoMemoTextView.text = "메모를 입력해주세요"
