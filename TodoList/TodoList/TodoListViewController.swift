@@ -192,6 +192,7 @@ extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainCell", for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
         cell.detailLabel.text = todo.dictionaryIndex[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -236,5 +237,41 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var detailLabel: UILabel!
     @IBOutlet weak var stateButtonImage: UIButton!
     
+    var delegate: UIViewController?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let r = CGFloat.random(in: 0...1)
+        let g = CGFloat.random(in: 0...1)
+        let b = CGFloat.random(in: 0...1)
+        
+        stateButtonImage.tintColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+        
     }
+    
+    @IBAction func stateChangeButton(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: "완료", style: .default) { _ in
+            let image = UIImage(systemName: "circle.fill")
+            image?.withTintColor(.darkGray)
+            self.stateButtonImage.setImage(image, for: .normal)
+        }
+        let action2 = UIAlertAction(title: "진행중", style: .default) { _ in
+            let image = UIImage(systemName: "circle.lefthalf.fill")
+            image?.withTintColor(.darkGray)
+            self.stateButtonImage.setImage(image, for: .normal)
+        }
+        let action3 = UIAlertAction(title: "진행전", style: .default) { _ in
+            let image = UIImage(systemName: "circle")
+            image?.withTintColor(.darkGray)
+            self.stateButtonImage.setImage(image, for: .normal)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(action1)
+        alert.addAction(action2)
+        alert.addAction(action3)
+        alert.addAction(cancelAction)
+        delegate?.present(alert, animated: true, completion: nil)
+    }
+}
 

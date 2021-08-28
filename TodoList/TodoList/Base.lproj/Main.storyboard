@@ -66,7 +66,7 @@
                                                     </constraints>
                                                     <state key="normal" image="circle" catalog="system"/>
                                                     <connections>
-                                                        <action selector="stateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mSj-8K-cxc"/>
+                                                        <action selector="stateChangeButton:" destination="mxC-Qa-SNs" eventType="touchUpInside" id="auB-08-Q2g"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQD-bp-IBr">
@@ -87,7 +87,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="detailLabel" destination="AQD-bp-IBr" id="PPV-Kz-9aD"/>
-                                            <outlet property="stateButtonImage" destination="UQe-Sy-rie" id="3U0-yg-Nd3"/>
+                                            <outlet property="stateButtonImage" destination="UQe-Sy-rie" id="qRs-cD-7ac"/>
                                             <segue destination="cf5-Ce-LMJ" kind="show" trigger="accessoryAction" id="gAb-uK-63G"/>
                                         </connections>
                                     </tableViewCell>
