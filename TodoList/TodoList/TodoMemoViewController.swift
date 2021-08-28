@@ -20,6 +20,19 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
     let listVC = TodoListViewController()
     let todo = Todo.shared
     
+    var willShowToken: NSObjectProtocol?
+    var willHideToken: NSObjectProtocol?
+    
+    deinit {
+        if let token = willShowToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+        
+        if let token = willHideToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         todoMemoTextView.delegate = self
@@ -34,6 +47,36 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
         todoMemoTextView.layer.borderColor = UIColor.lightGray.cgColor
         todoMemoTextView.layer.borderWidth = 2
         todoMemoTextView.layer.cornerRadius = 10
+    
+        // keyboard notification
+        willShowToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: OperationQueue.main, using: { [weak self] (noti) in
+            guard let strongSelf = self else { return }
+            
+            if let frame = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let height = frame.cgRectValue.height
+                
+                var inset = strongSelf.todoMemoTextView.contentInset
+                inset.bottom = height
+                strongSelf.todoMemoTextView.contentInset = inset
+                
+                inset = strongSelf.todoMemoTextView.horizontalScrollIndicatorInsets
+                inset.bottom = height
+                strongSelf.todoMemoTextView.scrollIndicatorInsets = inset
+            }
+        })
+        
+        willHideToken = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: OperationQueue.main, using: { [weak self] (noti) in
+            guard let strongSelf = self else { return }
+            
+            var inset = strongSelf.todoMemoTextView.contentInset
+            inset.bottom = 0
+            strongSelf.todoMemoTextView.contentInset = inset
+            
+            inset = strongSelf.todoMemoTextView.horizontalScrollIndicatorInsets
+            inset.bottom = 0
+            strongSelf.todoMemoTextView.scrollIndicatorInsets = inset
+        })
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,11 +117,7 @@ class TodoMemoViewController: UIViewController, UITextViewDelegate {
             todoMemoTextView.textColor = .label
         }
     }
-//    
-//    func textViewDidChange(_ textView: UITextView) {
-//        <#code#>
-//    }
-//    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             todoMemoTextView.text = "메모를 입력해주세요"
