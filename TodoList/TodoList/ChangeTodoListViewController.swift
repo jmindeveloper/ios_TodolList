@@ -38,7 +38,7 @@ class ChangeTodoListViewController: UIViewController {
         // navigation
         self.navigationItem.title = "Todo 수정"
         let deleteImage = UIImage(systemName: "trash")
-        let deleteButton = UIBarButtonItem(image: deleteImage, style: .plain, target: self, action: #selector(allDeleteButtonAction(_:)))
+        let deleteButton = UIBarButtonItem(image: deleteImage, style: .plain, target: self, action:   #selector(allDeleteButtonAction(_:)))
         deleteButton.tintColor = .darkGray
         self.navigationItem.rightBarButtonItem = deleteButton
         

@@ -209,13 +209,13 @@ extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.stateButtonImage.addTarget(self, action: #selector(stateImageChange(_:)), for: .touchDown)
         cell.delegate = self
         
-        let index = todoArraySorted[pageControl.currentPage]
+        let key = todoArraySorted[pageControl.currentPage]
         
-        if todo.stateDictionary[index]![indexPath.row] == "진행전" {
+        if todo.stateDictionary[key]![indexPath.row] == "진행전" {
             cell.stateButtonImage.setImage(image3, for: .normal)
-        } else if todo.stateDictionary[index]![indexPath.row] == "진행중" {
+        } else if todo.stateDictionary[key]![indexPath.row] == "진행중" {
             cell.stateButtonImage.setImage(image2, for: .normal)
-        } else if todo.stateDictionary[index]![indexPath.row] == "완료" {
+        } else if todo.stateDictionary[key]![indexPath.row] == "완료" {
             cell.stateButtonImage.setImage(image1, for: .normal)
         }
         
