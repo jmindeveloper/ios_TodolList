@@ -13,6 +13,9 @@ class TodoListViewController: UIViewController {
     var currentIndex: String = ""
     var todoArraySorted: [String] = []
     let formatter = DateFormatter()
+    let image1 = UIImage(systemName: "circle.fill")
+    let image2 = UIImage(systemName: "circle.lefthalf.fill")
+    let image3 = UIImage(systemName: "circle")
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateLabel: UIButton!
@@ -205,6 +208,17 @@ extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.detailLabel.text = todo.dictionaryIndex[indexPath.row]
         cell.stateButtonImage.addTarget(self, action: #selector(stateImageChange(_:)), for: .touchDown)
         cell.delegate = self
+        
+        let index = todoArraySorted[pageControl.currentPage]
+        
+        if todo.stateDictionary[index]![indexPath.row] == "진행전" {
+            cell.stateButtonImage.setImage(image3, for: .normal)
+        } else if todo.stateDictionary[index]![indexPath.row] == "진행중" {
+            cell.stateButtonImage.setImage(image2, for: .normal)
+        } else if todo.stateDictionary[index]![indexPath.row] == "완료" {
+            cell.stateButtonImage.setImage(image1, for: .normal)
+        }
+        
         return cell
     }
     
@@ -261,14 +275,7 @@ class MainTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         stateButtonImage.tintColor = .orange
-        
-        
-        
-        
-        
-        print("함수호출")
     }
     
     @IBAction func stateChangeButton(_ sender: Any) {
