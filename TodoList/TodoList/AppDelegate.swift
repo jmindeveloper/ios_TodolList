@@ -20,10 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         todo.todoArray = (UserDefaults.standard.array(forKey: "todoArray") as? [String]) ?? []
         todo.todoDictionary = UserDefaults.standard.dictionary(forKey: "todoDictionary") as? [String: [String]] ?? [:]
         todo.memoDictionary = UserDefaults.standard.dictionary(forKey: "memoDictionary") as? [String: [String]] ?? [:]
+        todo.stateDictionary = UserDefaults.standard.dictionary(forKey: "stateDictionary") as? [String: [String]] ?? [:]
         
         print(todo.todoArray)
         print(todo.todoDictionary)
         print(todo.memoDictionary)
+        print("todostate --> \(todo.stateDictionary)")
         
         for (key) in todo.todoDictionary.keys {
             print("Todo Dictionary Keys --> \(key)")
@@ -31,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 todo.todoArray.remove(at: todo.todoArray.firstIndex(of: key)!) // array에서 지우기
                 todo.todoDictionary[key] = nil // 딕셔너리에서도 지우기
                 todo.memoDictionary[key] = nil
+                todo.stateDictionary[key] = nil
             }
         }
         
@@ -43,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
             todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
             todo.memoDictionary[currentDate] = []
+            todo.stateDictionary[currentDate] = []
         }
 
         print(todo.todoArray)

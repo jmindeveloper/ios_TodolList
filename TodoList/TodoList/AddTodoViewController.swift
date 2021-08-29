@@ -83,6 +83,7 @@ class AddTodoViewController: UIViewController {
             todo.todoArray.append(str) // todoArray에 str 저장
             todo.todoDictionary[str] = [] // todoDictionary의 key에 str 저장
             todo.memoDictionary[str] = [] // memoDictionary의 key에 str 저장
+            todo.stateDictionary[str] = [] // stateDictionary의 key에 str 저장
             print("todoDictionary --> \(todo.memoDictionary)")
         }
         
@@ -92,6 +93,7 @@ class AddTodoViewController: UIViewController {
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[lastStr] = nil // todoDictionary에 lastStr키 삭제
                 todo.memoDictionary[lastStr] = nil // memoDictionary에 lastStr키 삭제
+                todo.stateDictionary[lastStr] = nil // stateDictionary에 lastStr키 삭제
             }
         }
         
@@ -112,12 +114,14 @@ class AddTodoViewController: UIViewController {
         addTableView.deleteRows(at: [indexPath], with: .automatic)
         todo.todoDictionary[str] = todo.dictionaryIndex // todoDictionary에 삭제된 배열인 dictionaryIndex 업데이트
         todo.memoDictionary[str]?.remove(at: indexPath.row)
+        todo.stateDictionary[str]?.remove(at: indexPath.row)
         if (todo.todoDictionary[lastStr]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
             if (todo.todoDictionary[lastStr]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
                 guard let firstIndex = todo.todoArray.firstIndex(of: lastStr) else { return }
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[lastStr] = nil // todoDictionry에 lastStr키 삭제
                 todo.memoDictionary[lastStr] = nil
+                todo.stateDictionary[lastStr] = nil
                 print(todo.todoArray)
                 todo.storage()
             }
@@ -155,20 +159,14 @@ class AddTodoViewController: UIViewController {
                 todo.todoArray.append(str) // todoArray에 str 저장
                 todo.todoDictionary[str] = [str2] // todoDictionary의 key에 str 저장
                 todo.memoDictionary[str] = [""] // memoDictionary의 key에 str 저장
+                todo.stateDictionary[str] = ["진행전"]
                 print("todoDictionary --> \(todo.memoDictionary)")
             } else {
                 todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
                 todo.memoDictionary[str]?.append("")
+                todo.stateDictionary[str]?.append("진행전")
             }
-            
-            
-            
-//            todo.todoDictionary[str]?.append(str2) // todoDictionary의 str키의 배열에 str2 저장
-//            todo.memoDictionary[str]?.append("")
-//            print("추가 --> \(todo.memoDictionary)")
-//            if todo.todoArray.contains("") {
-//                todo.todoArray.removeFirst()
-//            }
+            print("stateDictionary --> \(todo.stateDictionary)")
         }
         
         guard let firstIndex = todo.todoArray.firstIndex(of: str) else { return } // firstIndex값에 str값 index 저장
@@ -201,11 +199,16 @@ extension AddTodoViewController: UITableViewDataSource {
         
         let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
         guard let moveMemo = todo.memoDictionary[str]?[sourceIndexPath.row] else { return }
+        guard let moveState = todo.stateDictionary[str]?[sourceIndexPath.row] else { return }
+        print("pbitem?")
         todo.dictionaryIndex.remove(at: sourceIndexPath.row)
         todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
         todo.memoDictionary[str]?.remove(at: sourceIndexPath.row)
         todo.memoDictionary[str]?.insert(moveMemo, at: destinationIndexPath.row)
+        todo.stateDictionary[str]?.remove(at: sourceIndexPath.row)
+        todo.stateDictionary[str]?.insert(moveState, at: destinationIndexPath.row)
         todo.todoDictionary[str] = todo.dictionaryIndex
+        print(todo.todoDictionary)
     }
 }
 

@@ -17,11 +17,13 @@ class Todo {
     var dictionaryIndex: [String] = []
     var currentDate: String = ""
     var memoDictionary: [String: [String]] = [:]
+    var stateDictionary: [String: [String]] = [:]
     
     func storage() {
         UserDefaults.standard.set(todoArray, forKey: "todoArray")
         UserDefaults.standard.set(todoDictionary, forKey: "todoDictionary")
         UserDefaults.standard.set(memoDictionary, forKey: "memoDictionary")
+        UserDefaults.standard.set(stateDictionary, forKey: "stateDictionary")
     }
     
     private init() { }

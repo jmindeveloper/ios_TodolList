@@ -32,7 +32,7 @@ class ChangeTodoListViewController: UIViewController {
                 
         dateLabel.text = currentDate
         dateLabel2.text = currentDate
-        currentDateArray = todo.todoDictionary[currentDate]!
+        currentDateArray = todo.todoDictionary[currentDate] ?? []
         print(currentDateArray.count)
         
         // navigation
@@ -42,6 +42,11 @@ class ChangeTodoListViewController: UIViewController {
         deleteButton.tintColor = .darkGray
         self.navigationItem.rightBarButtonItem = deleteButton
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        todo.storage()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -56,6 +61,7 @@ class ChangeTodoListViewController: UIViewController {
             self.todo.todoArray.remove(at: currentDateIndex!)
             self.todo.todoDictionary[self.currentDate] = nil
             self.todo.memoDictionary[self.currentDate] = nil
+            self.todo.stateDictionary[self.currentDate] = nil
             self.currentDateArray = []
             self.tableView.reloadData()
             self.todo.storage()
@@ -75,12 +81,14 @@ class ChangeTodoListViewController: UIViewController {
         todo.todoDictionary[currentDate] = currentDateArray
 
         todo.memoDictionary[currentDate]?.remove(at: indexPath.row)
+        todo.stateDictionary[currentDate]?.remove(at: indexPath.row)
         if (todo.todoDictionary[currentDate]?.isEmpty) != nil { // todoDictionary에 lastStr키의 배열이 존재할때
             if (todo.todoDictionary[currentDate]?.isEmpty)! { // todoDictionary에 lastStr키의 배열이 비어있을때
                 guard let firstIndex = todo.todoArray.firstIndex(of: currentDate) else { return }
                 todo.todoArray.remove(at: firstIndex) // todoArray에 lastStr 값 삭제
                 todo.todoDictionary[currentDate] = nil // todoDictionry에 lastStr키 삭제
                 todo.memoDictionary[currentDate] = nil
+                todo.stateDictionary[currentDate] = nil
                 print(todo.todoArray)
                 todo.storage()
             }
@@ -91,7 +99,7 @@ class ChangeTodoListViewController: UIViewController {
         
         let str = textField.text!
         
-        if str == "" { // str2값이 빈값일때
+        if str == "" { // str값이 빈값일때
             let alert = UIAlertController(title: nil, message: "내용을 입력해주세요", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
             alert.addAction(okAction)
@@ -101,18 +109,19 @@ class ChangeTodoListViewController: UIViewController {
                 todo.todoArray.append(currentDate) // todoArray에 currentDate 저장
                 todo.todoDictionary[currentDate] = [str] // todoDictionary의 key에 currentDate 저장
                 todo.memoDictionary[currentDate] = [""] // memoDictionary의 key에 currentDate 저장
+                todo.stateDictionary[currentDate] = ["진행전"]
                 print("todoDictionary --> \(todo.memoDictionary)")
             } else {
                 todo.todoDictionary[currentDate]?.append(str) // todoDictionary의 currentDate키의 배열에 str 저장
                 todo.memoDictionary[currentDate]?.append("")
+                todo.stateDictionary[currentDate]?.append("진행전")
             }
         }
 
         guard let firstIndex = todo.todoArray.firstIndex(of: currentDate) else { return } // firstIndex값에 str값 index 저장
         print(firstIndex)
         todo.currentDate = todo.todoArray[firstIndex] // currentDate에 firstIndex값에 해당하는 값 저장
-        todo.dictionaryIndex = todo.todoDictionary[todo.currentDate] ?? [] // dictionaryIndex에 todoDictionary의 currentDate값에 해당하는 key의 배열 저장
-        self.currentDateArray.append(str)
+        currentDateArray = todo.todoDictionary[todo.currentDate] ?? [] // currentDateArray에 todoDictionary의 currentDate값에 해당하는 key의 배열 저장
         print("currentDateArray --> \(currentDateArray)")
         
         textField.text = ""
@@ -140,10 +149,13 @@ extension ChangeTodoListViewController: UITableViewDataSource {
         
         let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
         guard let moveMemo = todo.memoDictionary[currentDate]?[sourceIndexPath.row] else { return }
+        guard let moveState = todo.stateDictionary[currentDate]?[sourceIndexPath.row] else { return }
         todo.dictionaryIndex.remove(at: sourceIndexPath.row)
         todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
         todo.memoDictionary[currentDate]?.remove(at: sourceIndexPath.row)
         todo.memoDictionary[currentDate]?.insert(moveMemo, at: destinationIndexPath.row)
+        todo.stateDictionary[currentDate]?.remove(at: sourceIndexPath.row)
+        todo.stateDictionary[currentDate]?.insert(moveState, at: destinationIndexPath.row)
         todo.todoDictionary[currentDate] = todo.dictionaryIndex
     }
     

@@ -63,6 +63,7 @@ class TodoListViewController: UIViewController {
             todo.todoArray.append(currentDate) // array에 오늘날짜 추가하기
             todo.todoDictionary[currentDate] = [] // 딕셔너리에도 추가하기
             todo.memoDictionary[currentDate] = []
+            todo.stateDictionary[currentDate] = []
         }
         todoArraySorted = todo.todoArray.sorted(by: <)
         pageControl.numberOfPages = todo.todoArray.count
@@ -95,6 +96,14 @@ class TodoListViewController: UIViewController {
             setData()
             tableView.reloadData()
         }
+    }
+    
+    @objc func stateImageChange(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView)
+        guard let indexPath = tableView.indexPathForRow(at: point) else { return }
+        print(indexPath.row)
+        MainTableViewCell.index = indexPath.row
+        MainTableViewCell.currentDate = currentIndex
     }
     
     @IBAction func pageChanged(_ sender: Any) {
@@ -192,6 +201,7 @@ extension TodoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "mainCell", for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
         cell.detailLabel.text = todo.dictionaryIndex[indexPath.row]
+        cell.stateButtonImage.addTarget(self, action: #selector(stateImageChange(_:)), for: .touchDown)
         cell.delegate = self
         return cell
     }
@@ -238,40 +248,55 @@ class MainTableViewCell: UITableViewCell {
     @IBOutlet weak var stateButtonImage: UIButton!
     
     var delegate: UIViewController?
+    let tableview = TodoListViewController()
+    static var index: Int?
+    static var currentDate: String = ""
+    let todo = Todo.shared
+    
+    let image1 = UIImage(systemName: "circle.fill")
+    let image2 = UIImage(systemName: "circle.lefthalf.fill")
+    let image3 = UIImage(systemName: "circle")
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let r = CGFloat.random(in: 0...1)
-        let g = CGFloat.random(in: 0...1)
-        let b = CGFloat.random(in: 0...1)
         
-        stateButtonImage.tintColor = UIColor(red: r, green: g, blue: b, alpha: 1)
+        stateButtonImage.tintColor = .orange
         
+        
+        
+        
+        
+        print("함수호출")
     }
     
     @IBAction func stateChangeButton(_ sender: Any) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: "완료", style: .default) { _ in
-            let image = UIImage(systemName: "circle.fill")
-            image?.withTintColor(.darkGray)
-            self.stateButtonImage.setImage(image, for: .normal)
-        }
-        let action2 = UIAlertAction(title: "진행중", style: .default) { _ in
-            let image = UIImage(systemName: "circle.lefthalf.fill")
-            image?.withTintColor(.darkGray)
-            self.stateButtonImage.setImage(image, for: .normal)
-        }
-        let action3 = UIAlertAction(title: "진행전", style: .default) { _ in
-            let image = UIImage(systemName: "circle")
-            image?.withTintColor(.darkGray)
-            self.stateButtonImage.setImage(image, for: .normal)
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        alert.addAction(action1)
-        alert.addAction(action2)
-        alert.addAction(action3)
-        alert.addAction(cancelAction)
-        delegate?.present(alert, animated: true, completion: nil)
+        print("currentDate --> \(MainTableViewCell.currentDate)")
+        print("index --> \(MainTableViewCell.index!)")
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let action1 = UIAlertAction(title: "완료", style: .default) { _ in
+                self.stateButtonImage.setImage(self.image1, for: .normal)
+                self.todo.stateDictionary[MainTableViewCell.currentDate]![MainTableViewCell.index!] = "완료"
+                print("--> \(self.todo.stateDictionary)")
+                self.todo.storage()
+            }
+            let action2 = UIAlertAction(title: "진행중", style: .default) { _ in
+                self.stateButtonImage.setImage(self.image2, for: .normal)
+                self.todo.stateDictionary[MainTableViewCell.currentDate]![MainTableViewCell.index!] = "진행중"
+                print("--> \(self.todo.stateDictionary)")
+                self.todo.storage()
+            }
+            let action3 = UIAlertAction(title: "진행전", style: .default) { _ in
+                self.stateButtonImage.setImage(self.image3, for: .normal)
+                self.todo.stateDictionary[MainTableViewCell.currentDate]![MainTableViewCell.index!] = "진행전"
+                print("--> \(self.todo.stateDictionary)")
+                self.todo.storage()
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+            alert.addAction(action1)
+            alert.addAction(action2)
+            alert.addAction(action3)
+            alert.addAction(cancelAction)
+            delegate?.present(alert, animated: true, completion: nil)
     }
 }
 
