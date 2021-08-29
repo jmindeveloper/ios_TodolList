@@ -42,6 +42,8 @@ class ChangeTodoListViewController: UIViewController {
         deleteButton.tintColor = .darkGray
         self.navigationItem.rightBarButtonItem = deleteButton
         
+        print("dictionaryINdex --> \(todo.dictionaryIndex)")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,10 +91,14 @@ class ChangeTodoListViewController: UIViewController {
                 todo.todoDictionary[currentDate] = nil // todoDictionry에 lastStr키 삭제
                 todo.memoDictionary[currentDate] = nil
                 todo.stateDictionary[currentDate] = nil
-                print(todo.todoArray)
                 todo.storage()
             }
         }
+        print("todoArray --> \(todo.todoArray)")
+        print("todoDictionary --> \(todo.todoDictionary)")
+        print("memoDictionary --> \(todo.memoDictionary)")
+        print("stateDictionary --> \(todo.stateDictionary)")
+        print("-----------------------------------------")
     }
     
     @IBAction func addButton(_ sender: Any) {
@@ -110,7 +116,6 @@ class ChangeTodoListViewController: UIViewController {
                 todo.todoDictionary[currentDate] = [str] // todoDictionary의 key에 currentDate 저장
                 todo.memoDictionary[currentDate] = [""] // memoDictionary의 key에 currentDate 저장
                 todo.stateDictionary[currentDate] = ["진행전"]
-                print("todoDictionary --> \(todo.memoDictionary)")
             } else {
                 todo.todoDictionary[currentDate]?.append(str) // todoDictionary의 currentDate키의 배열에 str 저장
                 todo.memoDictionary[currentDate]?.append("")
@@ -119,14 +124,18 @@ class ChangeTodoListViewController: UIViewController {
         }
 
         guard let firstIndex = todo.todoArray.firstIndex(of: currentDate) else { return } // firstIndex값에 str값 index 저장
-        print(firstIndex)
         todo.currentDate = todo.todoArray[firstIndex] // currentDate에 firstIndex값에 해당하는 값 저장
         currentDateArray = todo.todoDictionary[todo.currentDate] ?? [] // currentDateArray에 todoDictionary의 currentDate값에 해당하는 key의 배열 저장
-        print("currentDateArray --> \(currentDateArray)")
         
         textField.text = ""
         tableView.reloadData()
         todo.storage()
+        print("todoArray --> \(todo.todoArray)")
+        print("todoDictionary --> \(todo.todoDictionary)")
+        print("memoDictionary --> \(todo.memoDictionary)")
+        print("stateDictionary --> \(todo.stateDictionary)")
+        print("-----------------------------------------")
+        print("dictionaryINdex --> \(todo.dictionaryIndex)")
     }
     
 }
@@ -147,16 +156,16 @@ extension ChangeTodoListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        let moveCell = todo.dictionaryIndex[sourceIndexPath.row]
+        let moveCell = currentDateArray[sourceIndexPath.row]
         guard let moveMemo = todo.memoDictionary[currentDate]?[sourceIndexPath.row] else { return }
         guard let moveState = todo.stateDictionary[currentDate]?[sourceIndexPath.row] else { return }
-        todo.dictionaryIndex.remove(at: sourceIndexPath.row)
-        todo.dictionaryIndex.insert(moveCell, at: destinationIndexPath.row)
+        currentDateArray.remove(at: sourceIndexPath.row)
+        currentDateArray.insert(moveCell, at: destinationIndexPath.row)
         todo.memoDictionary[currentDate]?.remove(at: sourceIndexPath.row)
         todo.memoDictionary[currentDate]?.insert(moveMemo, at: destinationIndexPath.row)
         todo.stateDictionary[currentDate]?.remove(at: sourceIndexPath.row)
         todo.stateDictionary[currentDate]?.insert(moveState, at: destinationIndexPath.row)
-        todo.todoDictionary[currentDate] = todo.dictionaryIndex
+        todo.todoDictionary[currentDate] = currentDateArray
     }
     
 }
